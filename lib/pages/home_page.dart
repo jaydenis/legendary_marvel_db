@@ -34,13 +34,13 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(
+          Container(
             height: getHeight(size.width, "21:9"),
-            child: Image.asset(
-              getImage("marvel_legendary_deck_building_game.jpg"),
-              fit: BoxFit.cover,
-            ),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage("https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/images/marvel_legendary_deck_building_game.jpg"), fit: BoxFit.cover)),
           ),
+
           SizedBox(
             width: double.infinity,
             child: Padding(

@@ -64,14 +64,13 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
       backgroundColor: primary,
       flexibleSpace: Stack(
         children: [
-
-          SizedBox(
+          Container(
             height: getHeight(size.width, "21:9"),
-            child: Image.asset(
-              getImage(widget.boxImage),
-              fit: BoxFit.cover,
-            ),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(widget.boxImage), fit: BoxFit.cover)),
           ),
+
           Container(
             decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
             child: SafeArea(
@@ -96,7 +95,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.star, color: textWhite, size: 18),
+                      const Icon(Icons.add_moderator_sharp, color: textWhite, size: 18),
                       SizedBox(
                         width: 5,
                       ),
@@ -129,119 +128,47 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     var objects =   legendaryDecks.where((element) => element['setId'] == widget.setId).toList();
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      child: Padding(
-        padding:  const EdgeInsets.all(mainPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                 Text(
-                  widget.setName,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Cards",
-                  style: TextStyle(
-                      fontSize: 15, color: textBlack.withOpacity(0.8)),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Column(
-              children: List.generate(objects.length, (index) {
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: (size.width * 0.75) - 40,
-                            height: 80,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LegendaryDeckDetailPage(
-                                          deckId: objects[index]['deckId'],
-                                          setId: objects[index]['setId'],
-                                          deckName: objects[index]['deckName'],
-                                          deckImage: objects[index]['deckImage'],
-                                          deckType: objects[index]['deckType'],
-                                        )
-                                    )
-                                );
-                              },
-                              child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  objects[index]['deckName']??'',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      objects[index]['deckType']??'',
-                                      style: const TextStyle(
-                                          color: textBlack, fontSize: 16),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
+      child:
+      Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(color: light),
+        child: Padding(
+          padding: const EdgeInsets.all(mainPadding),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: List.generate(objects.length, (index) {
+                  return Padding(
+                    padding:
+                    const EdgeInsets.only(bottom: bottomMainPadding),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LegendaryDeckDetailPage(
+                                deckId: objects[index]['deckId'],
+                                setId: objects[index]['setId'],
+                                deckName: objects[index]['deckName'],
+                                deckImage: objects[index]['deckImage'],
+                                deckType: objects[index]['deckType'],
+                              )
                           ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                image: DecorationImage(
-                                    image: NetworkImage(objects[index]["deckImage"]),
-                                    fit: BoxFit.cover
-                                ),
-                            ),
-                          )
-                        ],
-                      ),
+                        );
+                      },
+                      child: LegendaryDeckCard(
+                          width: size.width - (mainPadding * 2),
+                          legendaryDeck: objects[index]),
                     ),
-
-                    Divider(
-                      thickness: 0.8,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                );
-
-              }),
-            )
-          ],
+                  );
+                }),
+              )
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 

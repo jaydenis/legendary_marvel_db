@@ -25,33 +25,26 @@ class LegendaryDeckCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-      Container(
-      margin: const EdgeInsets.all(6.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        image:  DecorationImage(
-          image: NetworkImage(legendaryDeck["deckImage"]),
-          fit: BoxFit.cover,
-        ),
-      ),
-    ),
+          SizedBox(
+              width: width,
+              height: 100,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                child: Image.network(
+                  legendaryDeck["deckImage"],
+                  fit: BoxFit.fitWidth,
+                ),
+              )
+          ),
 
           Container(
             padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  legendaryDeck["setName"] ?? "",
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: textBlack,
-                      fontSize: titleFontSize,
-                      fontWeight: FontWeight.bold),
-                ),
+
                 const SizedBox(
                   height: 5,
                 ),
@@ -60,7 +53,7 @@ class LegendaryDeckCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: grey,
-                    fontSize: subTitleFontSize,
+                    fontSize: titleFontSize,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
@@ -70,7 +63,7 @@ class LegendaryDeckCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    getSvgIcon("clock_icon.svg"),
+                    getSvgIcon("profile_icon.svg"),
                     const SizedBox(
                       width: 5,
                     ),

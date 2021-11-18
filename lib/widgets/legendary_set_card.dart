@@ -25,15 +25,15 @@ class LegendarySetCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          Container(
               width: this.width,
               height: 100,
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
-                child: Image.asset(
-                  getImage(legendarySet["boxImage"]),
+                child: Image.network(
+                  legendarySet["boxImage"],
                   fit: BoxFit.cover,
                 ),
               )),
