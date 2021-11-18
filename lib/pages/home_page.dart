@@ -1,91 +1,277 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:legendary_marvel_db/services/services.dart';
+import 'package:legendary_marvel_db/data/legendary_deck_types_json.dart';
+import 'package:legendary_marvel_db/data/legendary_sets_json.dart';
+import 'package:legendary_marvel_db/theme/colors.dart';
+import 'package:legendary_marvel_db/theme/fontsizes.dart';
+import 'package:legendary_marvel_db/theme/helper.dart';
+import 'package:legendary_marvel_db/theme/padding.dart';
+import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
+import 'package:legendary_marvel_db/widgets/legendary_set_card.dart';
 
-import 'legendary_set_page_view.dart';
-import 'legendary_sets_page.dart';
+import 'package:legendary_marvel_db/pages/legendary_set_detail_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage();
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  void _signUp() async {
-    final success = await Services.of(context)
-        .authService
-        .signUp(_emailController.text, _passwordController.text);
-    await _handleResponse(success);
-  }
-
-  void _signIn() async {
-    final success = await Services.of(context)
-        .authService
-        .signIn(_emailController.text, _passwordController.text);
-    await _handleResponse(success);
-  }
-
-  Future<void> _handleResponse(bool success) async {
-    if (success) {
-      await Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => LegendarySetsPage()));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Something went wrong.')));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Supanotes'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(hintText: 'Email'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(hintText: 'Password'),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: _signIn,
-              icon: Icon(Icons.login),
-              label: Text('Sign in'),
-            ),
-            ElevatedButton.icon(
-              onPressed: _signUp,
-              icon: Icon(Icons.app_registration),
-              label: Text('Sign up'),
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: textWhite,
+      appBar: PreferredSize(
+          child: MainAppBar(size: size), preferredSize: const Size.fromHeight(40)),
+      body: getBody(),
     );
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  Widget getBody() {
+    var size = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: getHeight(size.width, "21:9"),
+            child: Image.asset(
+              getImage("marvel_legendary_deck_building_game.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding:
+              const EdgeInsets.only(top: mainPadding, bottom: mainPadding),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(legendaryDeckTypes.length, (index) {
+                    return SizedBox(
+                      width: 120,
+                      height: 50,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          getSvgIcon(legendaryDeckTypes[index]['deckTypeImage']),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(legendaryDeckTypes[index]['deckType'])
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(color: light),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: topMainPadding, bottom: bottomMainPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(
+                        left: leftMainPadding, right: rightMainPadding),
+                    child: Text(
+                      "Legendary Sets",
+                      style: TextStyle(
+                        fontSize: titleFontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(legendarySets.length, (index) {
+                        var legendarySet = legendarySets[index];
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: leftMainPadding, right: rightMainPadding),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LegendarySetDetailPage(
+                                          setId: legendarySet['setId'],
+                                          setName: legendarySet['setName'],
+                                          boxImage: legendarySet['boxImage'],
+                                          yearReleased: legendarySet['yearReleased'],
+                                          numberOfCards: legendarySet['numberOfCards'],
+                                        )
+                                    )
+                                );
+                              },
+                              child: LegendarySetCard(width: 280, legendarySet: legendarySet),
+                            ),
+                          );
+                        }
+                        return Padding(
+                          padding:
+                          const EdgeInsets.only(right: rightMainPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LegendarySetDetailPage(
+                                        setId: legendarySet['setId'],
+                                        setName: legendarySet['setName'],
+                                        boxImage: legendarySet['boxImage'],
+                                        yearReleased: legendarySet['yearReleased'],
+                                        numberOfCards: legendarySet['numberOfCards'],
+                                      )
+                                  )
+                              );
+                            },
+                            child: LegendarySetCard(width: 280, legendarySet: legendarySet),
+                          ),
+                        );
+                      }),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(color: light),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: topMainPadding, bottom: bottomMainPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(
+                        left: leftMainPadding, right: rightMainPadding),
+                    child: Text(
+                      "New Sets",
+                      style: TextStyle(
+                        fontSize: titleFontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children:
+                      List.generate(recommendedSets.length, (index) {
+                        var legendarySet = recommendedSets[index];
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: leftMainPadding, right: rightMainPadding),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LegendarySetDetailPage(
+                                          setId: legendarySet['setId'],
+                                          setName: legendarySet['setName'],
+                                          boxImage: legendarySet['boxImage'],
+                                          yearReleased: legendarySet['yearReleased'],
+                                          numberOfCards: legendarySet['numberOfCards'],
+                                        )
+                                    )
+                                );
+                              },
+                              child: LegendarySetCard(width: 180, legendarySet: legendarySet),
+                            ),
+                          );
+                        }
+                        return Padding(
+                          padding:
+                          const EdgeInsets.only(right: rightMainPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LegendarySetDetailPage(
+                                        setId: legendarySet['setId'],
+                                        setName: legendarySet['setName'],
+                                        boxImage: legendarySet['boxImage'],
+                                        yearReleased: legendarySet['yearReleased'],
+                                        numberOfCards: legendarySet['numberOfCards'],
+                                      )
+                                  )
+                              );
+                            },
+                            child: LegendarySetCard(width: 180, legendarySet: legendarySet),
+                          ),
+                        );
+                      }),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(color: light),
+            child: Padding(
+              padding: const EdgeInsets.all(mainPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: List.generate(legendarySets.length, (index) {
+                      return Padding(
+                        padding:
+                        const EdgeInsets.only(bottom: bottomMainPadding),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LegendarySetDetailPage(
+                                      setId: legendarySets[index]['setId'],
+                                      setName: legendarySets[index]['setName'],
+                                      boxImage: legendarySets[index]['boxImage'],
+                                      yearReleased: legendarySets[index]['yearReleased'],
+                                      numberOfCards: legendarySets[index]['numberOfCards'],
+                                    )));
+                          },
+                          child: LegendarySetCard(
+                              width: size.width - (mainPadding * 2),
+                              legendarySet: legendarySets[index]),
+                        ),
+                      );
+                    }),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
+
