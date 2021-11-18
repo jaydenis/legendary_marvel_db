@@ -25,18 +25,17 @@ class LegendaryDeckCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-              width: this.width,
-              height: 100,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-                child: Image.asset(
-                  getImage(legendaryDeck["deckImage"]),
-                  fit: BoxFit.cover,
-                ),
-              )),
+      Container(
+      margin: const EdgeInsets.all(6.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        image:  DecorationImage(
+          image: NetworkImage(legendaryDeck["deckImage"]),
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
+
           Container(
             padding: const EdgeInsets.all(15),
             child: Column(

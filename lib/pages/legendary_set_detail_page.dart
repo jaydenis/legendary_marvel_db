@@ -219,8 +219,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
-                                    image: AssetImage(
-                                        objects[index]['deckImage']??''),
+                                    image: NetworkImage(objects[index]["deckImage"]),
                                     fit: BoxFit.cover
                                 ),
                             ),

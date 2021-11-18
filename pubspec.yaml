@@ -56,7 +56,6 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/images/boxart/
-    - assets/decks/
 
   fonts:
     - family: NotoSans

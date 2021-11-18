@@ -14,6 +14,8 @@ class _CardImageSliderState extends State<CardImageSlider>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
+  CarouselController buttonCarouselController = CarouselController();
+
   @override
   void initState() {
     _controller = AnimationController(vsync: this);
@@ -38,18 +40,25 @@ class _CardImageSliderState extends State<CardImageSlider>
       children: [
         CarouselSlider(
           items: imageListWidgets,
+          carouselController: buttonCarouselController,
           //Slider Container properties
           options: CarouselOptions(
-            height: 561.0,
-            enlargeCenterPage: true,
-            autoPlay: true,
+            height: 525.0,
+            enlargeCenterPage: false,
+            autoPlay: false,
             aspectRatio: 137/187,
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             viewportFraction: 0.8,
+
           ),
         ),
+        ElevatedButton(
+          onPressed: () => buttonCarouselController.nextPage(
+              duration: const Duration(milliseconds: 300), curve: Curves.linear),
+          child: const Text('→'),
+        )
       ],
     );
   }

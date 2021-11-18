@@ -47,7 +47,7 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
           child:  getAppBar(),
           preferredSize: const Size.fromHeight(100)),
       body: getBody(),
-      bottomNavigationBar: getFooter(),
+      //bottomNavigationBar: getFooter(),
     );
   }
 
@@ -71,7 +71,7 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(widget.deckImage), fit: BoxFit.cover)),
+                    image: NetworkImage(widget.deckImage), fit: BoxFit.cover)),
           ),
           Container(
             decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
