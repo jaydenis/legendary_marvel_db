@@ -29,7 +29,8 @@ dependencies:
   built_collection: ^5.0.0
   built_value: ^8.0.0
   swipable_stack: ^0.7.1
-  carousel_slider: ^2.3.1
+  carousel_slider: ^4.0.0
+  cached_network_image: ^3.1.0+1
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +57,8 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/images/boxart/
+    - assets/images/teams/
+    - assets/images/attributes/
 
   fonts:
     - family: NotoSans

@@ -3,6 +3,8 @@ import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
 
+import '../constants.dart';
+
 class LegendarySetCard extends StatelessWidget {
   final legendarySet;
   final double width;
@@ -33,7 +35,7 @@ class LegendarySetCard extends StatelessWidget {
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
                 child: Image.network(
-                  legendarySet["boxImage"],
+                  IMAGE_ROOT+legendarySet["boxImage"],
                   fit: BoxFit.cover,
                 ),
               )),

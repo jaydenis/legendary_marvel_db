@@ -6,11 +6,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:legendary_marvel_db/data/legendary_data_object.dart';
 import 'package:legendary_marvel_db/data/legendary_decks_json.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
+import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
 import 'package:legendary_marvel_db/theme/padding.dart';
 import 'package:legendary_marvel_db/widgets/legendary_deck_card.dart';
 import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
 
+import '../constants.dart';
 import 'legendary_deck_detail_page.dart';
 
 class LegendarySetDetailPage extends StatefulWidget {
@@ -68,7 +70,9 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
             height: getHeight(size.width, "21:9"),
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(widget.boxImage), fit: BoxFit.cover)),
+                    image: NetworkImage(IMAGE_ROOT+widget.boxImage),
+                    fit: BoxFit.cover)
+            ),
           ),
 
           Container(
@@ -96,22 +100,22 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(Icons.add_moderator_sharp, color: textWhite, size: 18),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         "Year: "+widget.yearReleased.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: textWhite),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         "# of Cards: "+ widget.numberOfCards.toString(),
-                        style: TextStyle(fontSize: 15, color: textWhite),
+                        style: const TextStyle(fontSize: 15, color: textWhite),
                       )
                     ],
                   )
@@ -125,51 +129,44 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
   }
 
   Widget getBody() {
-    var objects =   legendaryDecks.where((element) => element['setId'] == widget.setId).toList();
-    var size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child:
-      Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(color: light),
-        child: Padding(
-          padding: const EdgeInsets.all(mainPadding),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: List.generate(objects.length, (index) {
-                  return Padding(
-                    padding:
-                    const EdgeInsets.only(bottom: bottomMainPadding),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LegendaryDeckDetailPage(
+    var objects = legendaryDecks.where((element) =>
+    element['setId'] == widget.setId).toList();
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return GridView.count(
+          // Create a grid with 2 columns. If you change the scrollDirection to
+          // horizontal, this produces 2 rows.
+          crossAxisCount: 2,
+          children: List.generate(objects.length, (index) {
+            return Center(
+              child: Padding(
+                padding:
+                const EdgeInsets.only(bottom: bottomMainPadding),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LegendaryDeckDetailPage(
                                 deckId: objects[index]['deckId'],
                                 setId: objects[index]['setId'],
                                 deckName: objects[index]['deckName'],
                                 deckImage: objects[index]['deckImage'],
                                 deckType: objects[index]['deckType'],
                               )
-                          ),
-                        );
-                      },
-                      child: LegendaryDeckCard(
-                          width: size.width - (mainPadding * 2),
-                          legendaryDeck: objects[index]),
-                    ),
-                  );
-                }),
-              )
-            ],
-          ),
-        ),
-      )
-    );
+                      ),
+                    );
+                  },
+                  child: LegendaryDeckCard(
+                      width: size.width - (mainPadding * 2),
+                      legendaryDeck: objects[index]),
+                ),
+              ),
+            );
+          }),
+        );
   }
 
   Widget getFooter() {

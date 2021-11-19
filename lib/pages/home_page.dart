@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Container(
             height: getHeight(size.width, "21:9"),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: NetworkImage("https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/images/marvel_legendary_deck_building_game.jpg"), fit: BoxFit.cover)),
           ),
@@ -51,13 +51,16 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   children: List.generate(legendaryDeckTypes.length, (index) {
                     return SizedBox(
-                      width: 120,
-                      height: 50,
+                      width: 80,
+                      height: 57,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          getSvgIcon(legendaryDeckTypes[index]['deckTypeImage']),
+                          Image.asset(legendaryDeckTypes[index]['deckTypeImage'],
+                          height: 36,
+                            width: 36,
+                          ),
                           const SizedBox(
                             height: 5,
                           ),

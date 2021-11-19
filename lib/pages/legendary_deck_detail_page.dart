@@ -13,6 +13,7 @@ import 'package:legendary_marvel_db/widgets/card_image_slider.dart';
 import 'package:legendary_marvel_db/widgets/card_viewer.dart';
 import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
 import 'package:legendary_marvel_db/swipe_deck/swipe_deck.dart';
+import '../constants.dart';
 import 'legendary_card_detail_page.dart';
 
 final borderRadius = BorderRadius.circular(20.0);
@@ -71,7 +72,7 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(widget.deckImage), fit: BoxFit.cover)),
+                    image: NetworkImage(IMAGE_ROOT+widget.deckImage), fit: BoxFit.cover)),
           ),
           Container(
             decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
