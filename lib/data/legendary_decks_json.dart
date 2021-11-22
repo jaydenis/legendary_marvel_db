@@ -28,6 +28,41 @@ List legendaryDecks = [
     "deckType": "Hero"
   },
   {
+    "deckId":5,
+    "setId": 1,
+    "deckImage": "images/cards/heroes/cyclops-01.jpg",
+    "deckName": "Cyclops",
+    "deckType": "Hero"
+  },
+  {
+    "deckId":6,
+    "setId": 1,
+    "deckImage": "images/cards/heroes/deadpool-01.jpg",
+    "deckName": "Deadpool",
+    "deckType": "Hero"
+  },
+  {
+    "deckId":7,
+    "setId": 1,
+    "deckImage": "images/cards/heroes/emma-frost-01.jpg",
+    "deckName": "Emma Frost",
+    "deckType": "Hero",
+  },
+  {
+    "deckId":8,
+    "setId": 1,
+    "deckImage": "images/cards/heroes/gambit-01.jpg",
+    "deckName": "Gambit",
+    "deckType": "Hero",
+  },
+  {
+    "deckId":9,
+    "setId": 1,
+    "deckImage": "images/cards/heroes/hulk-01.jpg",
+    "deckName": "Hulk",
+    "deckType": "Hero",
+  },
+  {
     "deckId":20,
     "setId": 2,
     "deckImage": "images/cards/heroes/mr-fantastic-01.jpg",
