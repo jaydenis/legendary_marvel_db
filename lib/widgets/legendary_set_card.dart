@@ -38,7 +38,8 @@ class LegendarySetCard extends StatelessWidget {
                   IMAGE_ROOT+legendarySet["boxImage"],
                   fit: BoxFit.cover,
                 ),
-              )),
+              )
+          ),
           Container(
             padding: const EdgeInsets.all(15),
             child: Column(

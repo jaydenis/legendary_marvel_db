@@ -9,7 +9,9 @@ import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
 import 'package:legendary_marvel_db/widgets/legendary_set_card.dart';
 
 import 'package:legendary_marvel_db/pages/legendary_set_detail_page.dart';
+import 'package:http/http.dart' as http;
 
+import '../constants.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -23,8 +25,8 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: textWhite,
-      appBar: PreferredSize(
-          child: MainAppBar(size: size), preferredSize: const Size.fromHeight(40)),
+     // appBar: PreferredSize(
+     //     child: MainAppBar(size: size), preferredSize: const Size.fromHeight(40)),
       body: getBody(),
     );
   }
@@ -52,12 +54,12 @@ class _HomePageState extends State<HomePage> {
                   children: List.generate(legendaryDeckTypes.length, (index) {
                     return SizedBox(
                       width: 80,
-                      height: 57,
+                      height: 58,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(legendaryDeckTypes[index]['deckTypeImage'],
+                          Image.network(IMAGE_ROOT+legendaryDeckTypes[index]['deckTypeImage'],
                           height: 36,
                             width: 36,
                           ),
@@ -73,6 +75,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(color: light),

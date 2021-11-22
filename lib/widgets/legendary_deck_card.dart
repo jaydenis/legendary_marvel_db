@@ -23,24 +23,30 @@ class LegendaryDeckCard extends StatelessWidget {
 
       decoration: BoxDecoration(
         color: textWhite,
-        borderRadius: BorderRadius.circular(10),
+
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Stack(
         children: [
           Container(
+              width: size.width,
+              //height: 100,
             height: getHeight(size.width, "21:9"),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            IMAGE_ROOT+legendaryDeck['deckImage'],
+            fit: BoxFit.cover,
+          ),
+        )
 
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(IMAGE_ROOT+legendaryDeck['deckImage']),
-                    fit: BoxFit.cover)
-            ),
           ),
           Container(
             //decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+
                 children: [
                   Center(
                       child: Padding(
