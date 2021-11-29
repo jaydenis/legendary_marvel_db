@@ -134,39 +134,45 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     var size = MediaQuery
         .of(context)
         .size;
-    return GridView.count(
-          // Create a grid with 2 columns. If you change the scrollDirection to
-          // horizontal, this produces 2 rows.
-          crossAxisCount: 2,
-          children: List.generate(objects.length, (index) {
-            return Center(
-              child: Padding(
-                padding:
-                const EdgeInsets.only(bottom: bottomMainPadding),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              LegendaryDeckDetailPage(
-                                deckId: objects[index]['deckId'],
-                                setId: objects[index]['setId'],
-                                deckName: objects[index]['deckName'],
-                                deckImage: objects[index]['deckImage'],
-                                deckType: objects[index]['deckType'],
-                              )
-                      ),
-                    );
-                  },
-                  child: LegendaryDeckCard(
-                      width: size.width - (mainPadding * 2),
-                      legendaryDeck: objects[index]),
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(color: light),
+      child: Padding(
+        padding: const EdgeInsets.all(mainPadding),
+        child:
+      GridView.count(
+            crossAxisCount: 3,
+            children: List.generate(objects.length, (index) {
+              return Center(
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(bottom: bottomMainPadding),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                LegendaryDeckDetailPage(
+                                  deckId: objects[index]['deckId'],
+                                  setId: objects[index]['setId'],
+                                  deckName: objects[index]['deckName'],
+                                  deckImage: objects[index]['deckImage'],
+                                  deckType: objects[index]['deckType'],
+                                )
+                        ),
+                      );
+                    },
+                    child: LegendaryDeckCard(
+                        width: size.width - (mainPadding * 3),
+                        legendaryDeck: objects[index]),
+                  ),
                 ),
-              ),
-            );
-          }),
-        );
+              );
+            }),
+          ),
+    )
+    );
   }
 
   Widget getFooter() {
