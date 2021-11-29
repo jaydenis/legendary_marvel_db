@@ -17,7 +17,9 @@ class LegendaryDeckCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     return Container(
       width: width,
 
@@ -31,37 +33,33 @@ class LegendaryDeckCard extends StatelessWidget {
           Container(
               width: size.width,
               //height: 100,
-            height: getHeight(size.width, "21:9"),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            IMAGE_ROOT+legendaryDeck['deckImage'],
-            fit: BoxFit.cover,
-          ),
-        )
-
+              height: getHeight(size.width, "21:9"),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  IMAGE_ROOT + legendaryDeck['deckImage'],
+                  fit: BoxFit.cover,
+                ),
+              )
           ),
           Container(
-            //decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-
                 children: [
                   Center(
                       child: Padding(
                         padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 10),
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
                         child: Text(
-                            legendaryDeck["deckName"] ?? "",
+                          legendaryDeck["deckName"] ?? "",
                           style: const TextStyle(
                               color: textWhite,
-                              fontSize: 25,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
-                      )),
-
-
+                      ),
+                  ),
                 ],
               ),
             ),

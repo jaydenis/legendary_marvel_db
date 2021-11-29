@@ -59,6 +59,7 @@ flutter:
     - assets/images/boxart/
     - assets/images/teams/
     - assets/images/attributes/
+    - assets/data/legendary_sets.json
 
   fonts:
     - family: NotoSans
