@@ -1,27 +1,31 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:legendary_marvel_db/models/legendary_models.dart';
+import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/pages/legendary_set_detail_page.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
-import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/padding.dart';
 
 import 'legendary_set_card.dart';
+import 'package:http/http.dart' as http;
 
 class LegendarySetsHorzAtom extends StatelessWidget {
 
-  Future<List<LegendarySetDataModel>> ReadJsonData() async {
-    //read json file
-    final jsondata = await rootBundle.loadString('assets/data/legendary_sets.json');
 
-    //decode json data as list
-    final list = json.decode(jsondata) as List<dynamic>;
 
-    //map json and initialize using DataModel
-    return list.map((e) => LegendarySetDataModel.fromJson(e)).toList();
+  Future<List<LegendarySetDetails>> ReadJsonData() async {
+    final response = await http
+        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+
+    if (response.statusCode == 200) {
+      final list = json.decode(response.body) as List<dynamic>;
+      return list.map((e) => LegendarySetDetails.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load Legendary Set');
+    }
   }
+
+
 
   LegendarySetsHorzAtom({Key? key}) : super(key: key);
 
@@ -36,7 +40,7 @@ class LegendarySetsHorzAtom extends StatelessWidget {
           if (data.hasError) {
             return Center(child: Text("${data.error}"));
           } else if (data.hasData) {
-            var items = data.data as List<LegendarySetDataModel>;
+            var items = data.data as List<LegendarySetDetails>;
 
             return Container(
               width: double.infinity,

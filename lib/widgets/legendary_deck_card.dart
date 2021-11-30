@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
@@ -6,7 +7,7 @@ import 'package:legendary_marvel_db/theme/helper.dart';
 import '../constants.dart';
 
 class LegendaryDeckCard extends StatelessWidget {
-  final legendaryDeck;
+  final Deck legendaryDeck;
   final double width;
 
   const LegendaryDeckCard({
@@ -32,12 +33,12 @@ class LegendaryDeckCard extends StatelessWidget {
         children: [
           Container(
               width: size.width,
-              //height: 100,
-              height: getHeight(size.width, "21:9"),
+              height: 100,
+              //height: getHeight(size.width, "21:9"),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  IMAGE_ROOT + legendaryDeck['deckImage'],
+                  IMAGE_ROOT + legendaryDeck.deckImage,
                   fit: BoxFit.cover,
                 ),
               )
@@ -52,7 +53,7 @@ class LegendaryDeckCard extends StatelessWidget {
                         padding:
                         const EdgeInsets.only(left: 10, right: 10, top: 10),
                         child: Text(
-                          legendaryDeck["deckName"] ?? "",
+                          legendaryDeck.deckName,
                           style: const TextStyle(
                               color: textWhite,
                               fontSize: 20,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/models/legendary_models.dart';
+import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
@@ -7,7 +8,7 @@ import 'package:legendary_marvel_db/theme/helper.dart';
 import '../constants.dart';
 
 class LegendarySetCard extends StatelessWidget {
-  final LegendarySetDataModel legendarySetFuture;
+  final LegendarySetDetails legendarySetFuture;
   final double width;
 
   const LegendarySetCard({
@@ -18,7 +19,7 @@ class LegendarySetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LegendarySetDataModel legendarySet = legendarySetFuture as LegendarySetDataModel;
+    LegendarySetDetails legendarySet = legendarySetFuture as LegendarySetDetails;
     return Container(
       width: this.width,
       decoration: BoxDecoration(

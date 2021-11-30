@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:legendary_marvel_db/data/legendary_data_object.dart';
 import 'package:legendary_marvel_db/data/legendary_decks_json.dart';
 import 'package:legendary_marvel_db/models/legendary_models.dart';
+import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
@@ -15,9 +16,9 @@ import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
 
 import '../constants.dart';
 import 'legendary_deck_detail_page.dart';
-
+import 'package:http/http.dart' as http;
 class LegendarySetDetailPage extends StatefulWidget {
-  final LegendarySetDataModel legendarySet;
+  final LegendarySetDetails legendarySet;
   const LegendarySetDetailPage({
     Key? key,
     required this.legendarySet
@@ -30,15 +31,80 @@ class LegendarySetDetailPage extends StatefulWidget {
 
 class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
   int pageIndex = 0;
+
+  Future<LegendarySetModel> ReadJsonData(String jsonFile) async {
+    final response = await http
+        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/'+jsonFile));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body) as dynamic;
+      Map<String, dynamic> setData = jsonDecode(response.body) ;
+      return LegendarySetModel.fromJson(setData) as LegendarySetModel;
+    } else {
+      throw Exception('Failed to load Legendary Set');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
           child:  getAppBar(),
-        preferredSize: const Size.fromHeight(200)),
-      body: getBody(),
-      bottomNavigationBar: getFooter(),
+        preferredSize: const Size.fromHeight(100)),
+      body: FutureBuilder(
+        future: ReadJsonData(widget.legendarySet.jsonFile),
+        builder: (context, data) {
+          if (data.hasError) {
+            return Center(child: Text("${data.error}"));
+          } else if (data.hasData) {
+            var items = data.data as LegendarySetModel;
+
+            return Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(color: light),
+              child: Padding(
+                padding: const EdgeInsets.all(mainPadding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: List.generate(items.decks.length, (index) {
+                        var legendaryDeck = items.decks[index];
+                        return Padding(
+                          padding:
+                          const EdgeInsets.only(bottom: bottomMainPadding),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LegendaryDeckDetailPage(legendaryDeck: legendaryDeck,)
+                                ),
+                              );
+                            },
+                            child: LegendaryDeckCard(
+                                width: size.width - (mainPadding * 3),
+                                legendaryDeck: legendaryDeck),
+                          ),
+                        );
+                      }),
+                    )
+                  ],
+                ),
+              ),
+            );
+
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      //bottomNavigationBar: getFooter(),
     );
   }
 
@@ -121,52 +187,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     );
   }
 
-  Widget getBody() {
-    var objects = legendaryDecks.where((element) =>
-    element['setId'] == widget.legendarySet.setId).toList();
-    var size = MediaQuery
-        .of(context)
-        .size;
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(color: light),
-      child: Padding(
-        padding: const EdgeInsets.all(mainPadding),
-        child:
-      GridView.count(
-            crossAxisCount: 3,
-            children: List.generate(objects.length, (index) {
-              return Center(
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(bottom: bottomMainPadding),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                LegendaryDeckDetailPage(
-                                  deckId: objects[index]['deckId'],
-                                  setId: objects[index]['setId'],
-                                  deckName: objects[index]['deckName'],
-                                  deckImage: objects[index]['deckImage'],
-                                  deckType: objects[index]['deckType'],
-                                )
-                        ),
-                      );
-                    },
-                    child: LegendaryDeckCard(
-                        width: size.width - (mainPadding * 3),
-                        legendaryDeck: objects[index]),
-                  ),
-                ),
-              );
-            }),
-          ),
-    )
-    );
-  }
+
 
   Widget getFooter() {
     List iconItems = [

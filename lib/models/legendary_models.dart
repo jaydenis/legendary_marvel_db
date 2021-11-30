@@ -33,3 +33,30 @@ class LegendarySetDataModel{
   }
 }
 
+class LegendaryDeckDataModel{
+  late final int deckId;
+  late final int setId;
+  late final String deckName;
+  late final String deckImage;
+  late final String deckType;
+// constructor
+  LegendaryDeckDataModel(
+      {
+        required this.deckId,
+        required this.setId,
+        required this.deckName,
+        required this.deckImage,
+        required this.deckType,
+      }
+      );
+  //method that assign values to respective datatype vairables
+  LegendaryDeckDataModel.fromJson(Map<String,dynamic> json)
+  {
+    deckId = json['deckId'];
+    setId = json['setId'];
+    deckName =json['deckName'];
+    deckImage = json['deckImage'];
+    deckType = json['deckType'];
+  }
+}
+

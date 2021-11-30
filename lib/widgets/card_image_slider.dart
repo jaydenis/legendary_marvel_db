@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/data/legendary_cards_json.dart';
 import 'package:legendary_marvel_db/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 
 class CardImageSlider extends StatefulWidget {
-  final int deckId;
-  const CardImageSlider({Key? key, required this.deckId}) : super(key: key);
+  final Deck legendaryDeck;
+  const CardImageSlider({Key? key, required this.legendaryDeck}) : super(key: key);
 
   @override
   _CardImageSliderState createState() => _CardImageSliderState();
@@ -32,12 +33,11 @@ class _CardImageSliderState extends State<CardImageSlider>
 
   @override
   Widget build(BuildContext context) {
-    var objects = legendaryCards.where((element) =>
-    element['deckId'] == widget.deckId).toList();
+    var objects = widget.legendaryDeck.cards;
     List<Widget> imageListWidgets = [];
     for (var image in objects) {
       imageListWidgets.add(
-          _toCarouselSliderWidget(IMAGE_ROOT + image['cardImage']));
+          _toCarouselSliderWidget(IMAGE_ROOT + image.cardImage));
     }
     return ListView(
       children: [
