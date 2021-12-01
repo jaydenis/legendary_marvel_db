@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:legendary_marvel_db/pages/home_page.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
+import 'package:legendary_marvel_db/widgets/menu_controller.dart';
+import 'package:legendary_marvel_db/widgets/side_menu.dart';
+import 'package:provider/provider.dart';
+import '../responsive.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({Key? key}) : super(key: key);
@@ -15,8 +19,27 @@ class _RootAppState extends State<RootApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //bottomNavigationBar: getFooter(),
-      body: getBody(),
+      key: context.read<MenuController>().scaffoldKey,
+      drawer: SideMenu(),
+      body: SafeArea(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // We want this side menu only for large screen
+            if (Responsive.isDesktop(context))
+              const Expanded(
+                // default flex = 1
+                // and it takes 1/6 part of the screen
+                child: SideMenu(),
+              ),
+            Expanded(
+              // It takes 5/6 part of the screen
+              flex: 5,
+              child: getBody(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -25,24 +48,7 @@ class _RootAppState extends State<RootApp> {
       index: pageIndex,
       children: const [
         HomePage(),
-        Center(
-          child: Text(
-            "Order",
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        Center(
-          child: Text(
-            "Notification",
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-        Center(
-          child: Text(
-            "Profile",
-            style: TextStyle(fontSize: 20),
-          ),
-        )
+
       ],
     );
   }

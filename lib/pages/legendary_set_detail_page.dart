@@ -3,20 +3,18 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:legendary_marvel_db/data/legendary_data_object.dart';
-import 'package:legendary_marvel_db/data/legendary_decks_json.dart';
-import 'package:legendary_marvel_db/models/legendary_models.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
-import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
 import 'package:legendary_marvel_db/theme/padding.dart';
+import 'package:legendary_marvel_db/widgets/header.dart';
 import 'package:legendary_marvel_db/widgets/legendary_deck_card.dart';
-import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
-
+import 'package:legendary_marvel_db/widgets/legendary_sets_atom.dart';
 import '../constants.dart';
+import '../responsive.dart';
 import 'legendary_deck_detail_page.dart';
 import 'package:http/http.dart' as http;
+
 class LegendarySetDetailPage extends StatefulWidget {
   final LegendarySetDetails legendarySet;
   const LegendarySetDetailPage({
@@ -52,58 +50,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
       appBar: PreferredSize(
           child:  getAppBar(),
         preferredSize: const Size.fromHeight(100)),
-      body: FutureBuilder(
-        future: ReadJsonData(widget.legendarySet.jsonFile),
-        builder: (context, data) {
-          if (data.hasError) {
-            return Center(child: Text("${data.error}"));
-          } else if (data.hasData) {
-            var items = data.data as LegendarySetModel;
-
-            return Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(color: light),
-              child: Padding(
-                padding: const EdgeInsets.all(mainPadding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: List.generate(items.decks.length, (index) {
-                        var legendaryDeck = items.decks[index];
-                        return Padding(
-                          padding:
-                          const EdgeInsets.only(bottom: bottomMainPadding),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        LegendaryDeckDetailPage(legendaryDeck: legendaryDeck,)
-                                ),
-                              );
-                            },
-                            child: LegendaryDeckCard(
-                                width: size.width - (mainPadding * 3),
-                                legendaryDeck: legendaryDeck),
-                          ),
-                        );
-                      }),
-                    )
-                  ],
-                ),
-              ),
-            );
-
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+      body: getBody(),
       //bottomNavigationBar: getFooter(),
     );
   }
@@ -187,6 +134,85 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     );
   }
 
+  Widget getBody() {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          //const Header(),
+          SizedBox(height: defaultPadding),
+          //HomePageCover(size: size),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    //LegendarySetsHorzAtom(),
+                    SizedBox(height: defaultPadding),
+                    decks(),
+                    // LegendaryHeroes(),
+                   // if (Responsive.isMobile(context))
+                   //   SizedBox(height: defaultPadding),
+                  //  if (Responsive.isMobile(context)) LegendarySetsVertAtom(),
+                  ],
+                ),
+              ),
+              if (!Responsive.isMobile(context))
+                SizedBox(width: defaultPadding),
+              // On Mobile means if the screen is less than 850 we dont want to show it
+              if (!Responsive.isMobile(context))
+                Expanded(
+                  flex: 2,
+                  child: LegendarySetsVertAtom(),
+                ),
+            ],
+          ),
+
+          // LegendarySetsNewAtom(recommendedSets: legendarySets),
+          //LegendarySetsAllAtom(legendarySetsList: legendarySets),
+        ],
+      ),
+    );
+  }
+
+Widget decks() {
+  var size = MediaQuery.of(context).size;
+  return FutureBuilder(
+    future: ReadJsonData(widget.legendarySet.jsonFile),
+    builder: (context, data) {
+      if (data.hasError) {
+        return Center(child: Text("${data.error}"));
+      } else if (data.hasData) {
+        var items = data.data as LegendarySetModel;
+        return Column(
+            children: [
+              SizedBox(height: defaultPadding),
+              Responsive(
+                mobile: DeckInfoCardGridView(legendaryDecks: items.decks,
+                  crossAxisCount: size.width < 650 ? 2 : 4,
+                  childAspectRatio: size.width < 650 ? 1.3 : 1,
+                ),
+                tablet: DeckInfoCardGridView(legendaryDecks: items.decks),
+                desktop: DeckInfoCardGridView(legendaryDecks: items.decks,
+                  childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
+                ),
+              ),
+            ]
+        );
+
+      } else {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    },
+  );
+}
+
 
 
   Widget getFooter() {
@@ -240,4 +266,32 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     );
   }
 
+}
+
+class DeckInfoCardGridView extends StatelessWidget {
+  const DeckInfoCardGridView({
+    Key? key,
+    required this.legendaryDecks,
+    this.crossAxisCount = 4,
+    this.childAspectRatio = 1,
+  }) : super(key: key);
+  final List<Deck> legendaryDecks;
+  final int crossAxisCount;
+  final double childAspectRatio;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: legendaryDecks.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: defaultPadding,
+        mainAxisSpacing: defaultPadding,
+        childAspectRatio: childAspectRatio,
+      ),
+      itemBuilder: (context, index) => LegendaryDeckCardSmall(legendaryDeck: legendaryDecks[index]),
+    );
+  }
 }

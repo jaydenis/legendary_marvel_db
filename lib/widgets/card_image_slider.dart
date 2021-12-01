@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:legendary_marvel_db/data/legendary_cards_json.dart';
 import 'package:legendary_marvel_db/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';

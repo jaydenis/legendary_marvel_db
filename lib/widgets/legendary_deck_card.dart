@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
+import 'package:legendary_marvel_db/pages/legendary_deck_detail_page.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
@@ -22,71 +23,81 @@ class LegendaryDeckCard extends StatelessWidget {
         .of(context)
         .size;
     return Container(
-      width: width,
-
+      width: this.width,
       decoration: BoxDecoration(
         color: textWhite,
-
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Stack(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-              width: size.width,
+          SizedBox(
+              width: width,
               height: 100,
-              //height: getHeight(size.width, "21:9"),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
                 child: Image.network(
-                  IMAGE_ROOT + legendaryDeck.deckImage,
+                  IMAGE_ROOT+legendaryDeck.deckImage,
                   fit: BoxFit.cover,
                 ),
               )
           ),
           Container(
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                      child: Padding(
-                        padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 10),
-                        child: Text(
-                          legendaryDeck.deckName,
-                          style: const TextStyle(
-                              color: textWhite,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          /*Container(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  legendaryDeck["deckName"] ?? "",
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: textBlack,
-                      fontSize: titleFontSize,
-                      fontWeight: FontWeight.bold),
-                ),
+            child: Text(
+              legendaryDeck.deckName,
+              overflow: TextOverflow.ellipsis,
 
-              ],
+              style: const TextStyle(
+                  color: textBlack,
+                  fontSize: titleFontSize,
+                  fontWeight: FontWeight.bold),
             ),
-          )*/
+          )
         ],
       ),
+    );
+  }
+}
+
+class LegendaryDeckCardSmall extends StatelessWidget {
+  const LegendaryDeckCardSmall({
+    Key? key,
+    required this.legendaryDeck,
+  }) : super(key: key);
+
+  final Deck legendaryDeck;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(defaultPadding),
+        decoration: const BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        LegendaryDeckDetailPage(legendaryDeck: legendaryDeck,
+                        )
+                )
+            );
+          },
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: Image.network(
+              IMAGE_ROOT + legendaryDeck.deckImage,
+              fit: BoxFit.cover,
+            ),
+          )
+        ),
     );
   }
 }

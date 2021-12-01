@@ -3,19 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:legendary_marvel_db/data/legendary_cards_json.dart';
-import 'package:legendary_marvel_db/data/legendary_data_object.dart';
-import 'package:legendary_marvel_db/data/legendary_decks_json.dart';
-import 'package:legendary_marvel_db/models/legendary_models.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
-import 'package:legendary_marvel_db/theme/padding.dart';
 import 'package:legendary_marvel_db/widgets/card_image_slider.dart';
-import 'package:legendary_marvel_db/widgets/card_viewer.dart';
-import 'package:legendary_marvel_db/widgets/main_app_bar.dart';
-import 'package:legendary_marvel_db/swipe_deck/swipe_deck.dart';
 import '../constants.dart';
-import 'legendary_card_detail_page.dart';
 
 final borderRadius = BorderRadius.circular(20.0);
 

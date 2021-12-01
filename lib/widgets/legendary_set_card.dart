@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:legendary_marvel_db/models/legendary_models.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
@@ -30,11 +29,11 @@ class LegendarySetCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-              width: this.width,
+          SizedBox(
+              width: width,
               height: 100,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
                 child: Image.network(
@@ -57,6 +56,34 @@ class LegendarySetCard extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+
+class LegendarySetCardSmall extends StatelessWidget {
+  const LegendarySetCardSmall({
+    Key? key,
+    required this.legendarySetFuture,
+  }) : super(key: key);
+
+  final LegendarySetDetails legendarySetFuture;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(defaultPadding),
+        decoration: const BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          child: Image.network(
+            IMAGE_ROOT + legendarySetFuture.boxImage,
+            fit: BoxFit.cover,
+          ),
+        )
     );
   }
 }
