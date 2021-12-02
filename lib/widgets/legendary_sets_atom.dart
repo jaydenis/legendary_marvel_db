@@ -12,19 +12,9 @@ import 'legendary_set_card.dart';
 import 'package:http/http.dart' as http;
 
 class LegendarySetsHorzAtom extends StatelessWidget {
-  Future<List<LegendarySetDetails>?> ReadJsonData() async {
-    final response = await http
-        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+  final Future<List<LegendarySetDetails>> list;
 
-    if (response.statusCode == 200) {
-      final list = json.decode(response.body) as List<dynamic>;
-      return list.map((e) => LegendarySetDetails.fromJson(e)).where((element) => element.yearReleased >= 2019).toList();
-    } else {
-      throw Exception('Failed to load Legendary Set');
-    }
-  }
-
-  LegendarySetsHorzAtom({Key? key}) : super(key: key);
+  const LegendarySetsHorzAtom({Key? key, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +22,16 @@ class LegendarySetsHorzAtom extends StatelessWidget {
         .of(context)
         .size;
     return FutureBuilder(
-      future: ReadJsonData(),
+      future: list,
       builder: (context, data) {
         if (data.hasError) {
           return Center(child: Text("${data.error}"));
         } else if (data.hasData) {
           var items = data.data as List<LegendarySetDetails>;
+
           return Column(
             children: [
-              SizedBox(height: defaultPadding),
+              const SizedBox(height: defaultPadding),
               Responsive(
                 mobile: SetInfoCardGridView(legendarySets: items,
                   crossAxisCount: size.width < 650 ? 2 : 4,
@@ -94,19 +85,9 @@ final List<LegendarySetDetails> legendarySets;
 }
 
 class LegendarySetsVertAtom extends StatelessWidget {
-  Future<List<LegendarySetDetails>> ReadJsonData() async {
-    final response = await http
-        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+  final Future<List<LegendarySetDetails>> list;
 
-    if (response.statusCode == 200) {
-      final list = json.decode(response.body) as List<dynamic>;
-      return list.map((e) => LegendarySetDetails.fromJson(e)).toList();
-    } else {
-      throw Exception('Failed to load Legendary Set');
-    }
-  }
-
-  LegendarySetsVertAtom({Key? key}) : super(key: key);
+  const LegendarySetsVertAtom({Key? key, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +95,7 @@ class LegendarySetsVertAtom extends StatelessWidget {
         .of(context)
         .size;
     return FutureBuilder(
-        future: ReadJsonData(),
+        future: list,
         builder: (context, data) {
           if (data.hasError) {
             return Center(child: Text("${data.error}"));
@@ -170,33 +151,25 @@ class LegendarySetsVertAtom extends StatelessWidget {
 }
 
 class LegendarySetsNewAtom extends StatelessWidget {
-  Future<List<LegendarySetDetails>?> ReadJsonData() async {
-    final response = await http
-        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+  final Future<List<LegendarySetDetails>> list;
 
-    if (response.statusCode == 200) {
-      final list = json.decode(response.body) as List<dynamic>;
-      return list.map((e) => LegendarySetDetails.fromJson(e)).where((element) => element.yearReleased >= 2019).toList();
-    } else {
-      throw Exception('Failed to load Legendary Set');
-    }
-  }
+  const LegendarySetsNewAtom({Key? key, required this.list}) : super(key: key);
 
-  LegendarySetsNewAtom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     var size = MediaQuery
         .of(context)
         .size;
     return FutureBuilder(
-      future: ReadJsonData(),
+      future: list,
       builder: (context, data) {
         if (data.hasError) {
           return Center(child: Text("${data.error}"));
         } else if (data.hasData) {
           var items = data.data as List<LegendarySetDetails>;
-
+          var newItems = items.where((element) => element.yearReleased < 2020).toList();
           return Container(
             width: double.infinity,
             decoration: const BoxDecoration(color: secondaryColor),
@@ -207,8 +180,8 @@ class LegendarySetsNewAtom extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
-                    children: List.generate(items.length, (index) {
-                      var legendarySet = items[index];
+                    children: List.generate(newItems.length, (index) {
+                      var legendarySet = newItems[index];
                       return Padding(
                         padding:
                         const EdgeInsets.only(bottom: bottomMainPadding),
@@ -244,149 +217,4 @@ class LegendarySetsNewAtom extends StatelessWidget {
     );
   }
 }
-/*
 
-class LegendarySetsNewAtom extends StatelessWidget {
-  final Future<List<LegendarySetDataModel>>  recommendedSets;
-  const LegendarySetsNewAtom({Key? key, required this.recommendedSets}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var legendarySets = recommendedSets as List<LegendarySetDataModel>;
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(color: light),
-      child: Padding(
-        padding: const EdgeInsets.only(
-            top: topMainPadding, bottom: bottomMainPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(
-                  left: leftMainPadding, right: rightMainPadding),
-              child: Text(
-                "New Sets",
-                style: TextStyle(
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children:
-                List.generate(legendarySets.length, (index) {
-                  var legendarySet = legendarySets[index];
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: leftMainPadding, right: rightMainPadding),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LegendarySetDetailPage(
-                                    setId: legendarySet.setId,
-                                    setName: legendarySet.setName,
-                                    boxImage: legendarySet.boxImage,
-                                    yearReleased: legendarySet.yearReleased,
-                                    numberOfCards: legendarySet.numberOfCards,
-                                  )
-                              )
-                          );
-                        },
-                        child: LegendarySetCard(width: 180, legendarySetFuture: legendarySet),
-                      ),
-                    );
-                  }
-                  return Padding(
-                    padding:
-                    const EdgeInsets.only(right: rightMainPadding),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LegendarySetDetailPage(
-                                  setId: legendarySet.setId,
-                                  setName: legendarySet.setName,
-                                  boxImage: legendarySet.boxImage,
-                                  yearReleased: legendarySet.yearReleased,
-                                  numberOfCards: legendarySet.numberOfCards,
-                                )
-                            )
-                        );
-                      },
-                      child: LegendarySetCard(width: 180, legendarySetFuture: legendarySet),
-                    ),
-                  );
-                }),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-class LegendarySetsAllAtom extends StatelessWidget {
-  final Future<List<LegendarySetDataModel>> legendarySetsList;
-  const LegendarySetsAllAtom({Key? key, required this.legendarySetsList}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var legendarySets = legendarySetsList as List<LegendarySetDataModel>;
-    var size = MediaQuery
-        .of(context)
-        .size;
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(color: light),
-      child: Padding(
-        padding: const EdgeInsets.all(mainPadding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: List.generate(legendarySets.length, (index) {
-                var legendarySet = legendarySets[index];
-                return Padding(
-                  padding:
-                  const EdgeInsets.only(bottom: bottomMainPadding),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  LegendarySetDetailPage(
-                                    setId: legendarySet.setId,
-                                    setName: legendarySet.setName,
-                                    boxImage: legendarySet.boxImage,
-                                    yearReleased: legendarySet.yearReleased,
-                                    numberOfCards: legendarySet.numberOfCards,
-                                  )));
-                    },
-                    child: LegendarySetCard(
-                        width: size.width - (mainPadding * 2),
-                        legendarySetFuture: legendarySets[index]),
-                  ),
-                );
-              }),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}*/

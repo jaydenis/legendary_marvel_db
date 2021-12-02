@@ -1,8 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
+import 'package:legendary_marvel_db/pages/legendary_set_detail_page.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
+import 'package:legendary_marvel_db/theme/padding.dart';
 
 import '../constants.dart';
 
@@ -36,8 +39,9 @@ class LegendarySetCard extends StatelessWidget {
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
-                child: Image.network(
-                  IMAGE_ROOT+legendarySet.boxImage,
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  imageUrl:IMAGE_ROOT + legendarySetFuture.boxImage,
                   fit: BoxFit.cover,
                 ),
               )
@@ -72,18 +76,37 @@ class LegendarySetCardSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(defaultPadding),
-        decoration: const BoxDecoration(
-          color: secondaryColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+      padding: const EdgeInsets.all(defaultPadding),
+      decoration: const BoxDecoration(
+        color: secondaryColor,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Padding(
+        padding:
+        const EdgeInsets.only(bottom: bottomMainPadding),
+        child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          LegendarySetDetailPage(
+                            legendarySet: legendarySetFuture,
+                          )
+                  )
+              );
+            },
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              child:
+              CachedNetworkImage(
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                imageUrl:IMAGE_ROOT + legendarySetFuture.boxImage,
+                fit: BoxFit.cover,
+              ),
+            )
         ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          child: Image.network(
-            IMAGE_ROOT + legendarySetFuture.boxImage,
-            fit: BoxFit.cover,
-          ),
-        )
+      ),
     );
   }
 }

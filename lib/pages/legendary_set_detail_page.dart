@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +8,7 @@ import 'package:legendary_marvel_db/theme/helper.dart';
 import 'package:legendary_marvel_db/theme/padding.dart';
 import 'package:legendary_marvel_db/widgets/header.dart';
 import 'package:legendary_marvel_db/widgets/legendary_deck_card.dart';
+import 'package:legendary_marvel_db/widgets/legendary_decktypes_atom.dart';
 import 'package:legendary_marvel_db/widgets/legendary_sets_atom.dart';
 import '../constants.dart';
 import '../responsive.dart';
@@ -43,6 +43,18 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     }
   }
 
+  Future<List<LegendarySetDetails>> ReadLegendarySetsJsonData() async {
+    final response = await http
+        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+
+    if (response.statusCode == 200) {
+      final list = json.decode(response.body) as List<dynamic>;
+      return list.map((e) => LegendarySetDetails.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load Legendary Set');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -50,7 +62,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
       appBar: PreferredSize(
           child:  getAppBar(),
         preferredSize: const Size.fromHeight(100)),
-      body: getBody(),
+      body: getBody(ReadLegendarySetsJsonData()),
       //bottomNavigationBar: getFooter(),
     );
   }
@@ -134,7 +146,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     );
   }
 
-  Widget getBody() {
+  Widget getBody( final Future<List<LegendarySetDetails>> list) {
     var size = MediaQuery
         .of(context)
         .size;
@@ -142,7 +154,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
       child: Column(
         children: [
           //const Header(),
-          SizedBox(height: defaultPadding),
+          const SizedBox(height: defaultPadding),
           //HomePageCover(size: size),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,23 +163,24 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
                 flex: 5,
                 child: Column(
                   children: [
-                    //LegendarySetsHorzAtom(),
-                    SizedBox(height: defaultPadding),
+
+                    const SizedBox(height: defaultPadding),
                     decks(),
                     // LegendaryHeroes(),
                    // if (Responsive.isMobile(context))
                    //   SizedBox(height: defaultPadding),
                   //  if (Responsive.isMobile(context)) LegendarySetsVertAtom(),
+
                   ],
                 ),
               ),
               if (!Responsive.isMobile(context))
-                SizedBox(width: defaultPadding),
+                const SizedBox(width: defaultPadding),
               // On Mobile means if the screen is less than 850 we dont want to show it
               if (!Responsive.isMobile(context))
                 Expanded(
                   flex: 2,
-                  child: LegendarySetsVertAtom(),
+                  child: LegendarySetsVertAtom(list: list),
                 ),
             ],
           ),
@@ -180,7 +193,9 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
   }
 
 Widget decks() {
-  var size = MediaQuery.of(context).size;
+  var size = MediaQuery
+      .of(context)
+      .size;
   return FutureBuilder(
     future: ReadJsonData(widget.legendarySet.jsonFile),
     builder: (context, data) {
@@ -188,22 +203,20 @@ Widget decks() {
         return Center(child: Text("${data.error}"));
       } else if (data.hasData) {
         var items = data.data as LegendarySetModel;
+        var heroesList = items.decks.where((element) =>
+        element.deckType == 'Heroes').toList();
+        var mastermindsList = items.decks.where((element) =>
+        element.deckType == 'Masterminds').toList();
+        var villainsList = items.decks.where((element) =>
+        element.deckType == 'Villains').toList();
         return Column(
             children: [
-              SizedBox(height: defaultPadding),
-              Responsive(
-                mobile: DeckInfoCardGridView(legendaryDecks: items.decks,
-                  crossAxisCount: size.width < 650 ? 2 : 4,
-                  childAspectRatio: size.width < 650 ? 1.3 : 1,
-                ),
-                tablet: DeckInfoCardGridView(legendaryDecks: items.decks),
-                desktop: DeckInfoCardGridView(legendaryDecks: items.decks,
-                  childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
-                ),
-              ),
+              DeckExpandableCard(legendaryDecks: heroesList),
+              DeckExpandableCard(legendaryDecks: mastermindsList),
+              DeckExpandableCard(legendaryDecks: villainsList),
+
             ]
         );
-
       } else {
         return const Center(
           child: CircularProgressIndicator(),
@@ -267,6 +280,49 @@ Widget decks() {
   }
 
 }
+
+class DeckExpandableCard extends StatelessWidget{
+  const DeckExpandableCard({
+    Key? key,
+    required this.legendaryDecks
+  }) : super(key: key);
+  final List<Deck> legendaryDecks;
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return Card(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0))),
+      elevation: 2,
+      margin: const EdgeInsets.all(12.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ExpansionTile(
+          backgroundColor: secondaryColor,
+          title: Text(legendaryDecks[0].deckType),
+          trailing: const SizedBox(),
+          children: <Widget>[
+            Responsive(
+              mobile: DeckInfoCardGridView(legendaryDecks: legendaryDecks,
+                crossAxisCount: size.width < 650 ? 2 : 4,
+                childAspectRatio: size.width < 650 ? 1.3 : 1,
+              ),
+              tablet: DeckInfoCardGridView(
+                  legendaryDecks: legendaryDecks),
+              desktop: DeckInfoCardGridView(
+                legendaryDecks: legendaryDecks,
+                childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 class DeckInfoCardGridView extends StatelessWidget {
   const DeckInfoCardGridView({

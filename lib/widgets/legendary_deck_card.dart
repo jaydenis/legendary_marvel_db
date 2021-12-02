@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/pages/legendary_deck_detail_page.dart';
@@ -92,8 +93,9 @@ class LegendaryDeckCardSmall extends StatelessWidget {
           },
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            child: Image.network(
-              IMAGE_ROOT + legendaryDeck.deckImage,
+            child: CachedNetworkImage(
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              imageUrl:IMAGE_ROOT + legendaryDeck.deckImage,
               fit: BoxFit.cover,
             ),
           )

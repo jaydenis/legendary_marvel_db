@@ -81,7 +81,7 @@ class Deck {
   String deckImage;
   String deckName;
   String deckType;
-  List<Card> cards;
+  List<LegendaryCard> cards;
 
   factory Deck.fromJson(Map<String, dynamic> json) => Deck(
     deckId: json["deckId"],
@@ -89,7 +89,7 @@ class Deck {
     deckImage: json["deckImage"],
     deckName: json["deckName"],
     deckType: json["deckType"],
-    cards: List<Card>.from(json["cards"].map((x) => Card.fromJson(x))),
+    cards: List<LegendaryCard>.from(json["cards"].map((x) => LegendaryCard.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -102,8 +102,8 @@ class Deck {
   };
 }
 
-class Card {
-  Card({
+class LegendaryCard {
+  LegendaryCard({
     required this.deckId,
     required this.setId,
     required this.cardImage,
@@ -119,7 +119,7 @@ class Card {
   String teamName;
   String cardName;
 
-  factory Card.fromJson(Map<String, dynamic> json) => Card(
+  factory LegendaryCard.fromJson(Map<String, dynamic> json) => LegendaryCard(
     deckId: json["deckId"],
     setId: json["setId"],
     cardImage: json["cardImage"],
