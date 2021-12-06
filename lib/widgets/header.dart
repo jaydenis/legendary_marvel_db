@@ -98,7 +98,7 @@ class SearchField extends StatelessWidget {
               color: primaryColor,
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
-            child: SvgPicture.asset("assets/icons/Search.svg"),
+            child: SvgPicture.asset("assets/icons/search_icon.svg"),
           ),
         ),
       ),

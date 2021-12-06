@@ -203,17 +203,25 @@ Widget decks() {
         return Center(child: Text("${data.error}"));
       } else if (data.hasData) {
         var items = data.data as LegendarySetModel;
+
         var heroesList = items.decks.where((element) =>
         element.deckType == 'Heroes').toList();
+
         var mastermindsList = items.decks.where((element) =>
         element.deckType == 'Masterminds').toList();
+
         var villainsList = items.decks.where((element) =>
         element.deckType == 'Villains').toList();
+
+        var henchmenList = items.decks.where((element) =>
+        element.deckType == 'Henchmen').toList();
+
         return Column(
             children: [
               DeckExpandableCard(legendaryDecks: heroesList),
               DeckExpandableCard(legendaryDecks: mastermindsList),
               DeckExpandableCard(legendaryDecks: villainsList),
+              DeckExpandableCard(legendaryDecks: henchmenList),
 
             ]
         );
@@ -228,56 +236,6 @@ Widget decks() {
 
 
 
-  Widget getFooter() {
-    List iconItems = [
-      "assets/icons/home_icon.svg",
-      "assets/icons/search_icon.svg",
-    ];
-    List textItems = ["Home", "Search"];
-    List navItems = ["/", "/search"];
-    return Container(
-      width: double.infinity,
-      height: 90,
-      decoration: BoxDecoration(
-          color: textWhite,
-          border: Border(
-              top: BorderSide(width: 2, color: textBlack.withOpacity(0.06)))),
-      child: Padding(
-        padding:
-        const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(iconItems.length, (index) {
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  Navigator.pushNamed(context, navItems[index]);
-                });
-              },
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    iconItems[index],
-                    width: 22,
-                    color: pageIndex == index ? primary : textBlack,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    textItems[index],
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: pageIndex == index ? primary : textBlack),
-                  )
-                ],
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
 
 }
 

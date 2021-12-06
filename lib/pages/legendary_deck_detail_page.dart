@@ -31,7 +31,8 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
       appBar: PreferredSize(
           child:  getAppBar(),
           preferredSize: const Size.fromHeight(100)),
-      body: getBody(),
+      body: CardImageSlider(legendaryDeck: widget.legendaryDeck
+      ),
       //bottomNavigationBar: getFooter(),
     );
   }
@@ -56,7 +57,9 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(IMAGE_ROOT+widget.legendaryDeck.deckImage), fit: BoxFit.cover)),
+                    image: NetworkImage(
+                        IMAGE_ROOT + widget.legendaryDeck.deckImage),
+                    fit: BoxFit.cover)),
           ),
           Container(
             decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
@@ -83,17 +86,16 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(Icons.star, color: textWhite, size: 18),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         widget.legendaryDeck.deckType,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: textWhite),
                       ),
-
                     ],
                   )
                 ],
@@ -107,64 +109,11 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
 
   Widget getBody() {
 
-    var size = MediaQuery
-        .of(context)
-        .size;
     return SizedBox(
         child: CardImageSlider(legendaryDeck: widget.legendaryDeck
         )
     );
   }
 
-  Widget getFooter() {
-    List iconItems = [
-      "assets/icons/home_icon.svg",
-      "assets/icons/search_icon.svg",
-    ];
-    List textItems = ["Home", "Search"];
-    List navItems = ["/", "/search"];
-    return Container(
-      width: double.infinity,
-      height: 90,
-      decoration: BoxDecoration(
-          color: textWhite,
-          border: Border(
-              top: BorderSide(width: 2, color: textBlack.withOpacity(0.06)))),
-      child: Padding(
-        padding:
-        const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(iconItems.length, (index) {
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  Navigator.pushNamed(context, navItems[index]);
-                });
-              },
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    iconItems[index],
-                    width: 22,
-                    color: pageIndex == index ? primary : textBlack,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    textItems[index],
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: pageIndex == index ? primary : textBlack),
-                  )
-                ],
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
 
 }
