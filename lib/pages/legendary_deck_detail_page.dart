@@ -7,6 +7,7 @@ import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/widgets/card_image_slider.dart';
 import '../constants.dart';
+import 'legendary_card_detail_page.dart';
 
 final borderRadius = BorderRadius.circular(20.0);
 
@@ -31,6 +32,7 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
       appBar: PreferredSize(
           child:  getAppBar(),
           preferredSize: const Size.fromHeight(100)),
+      //body: getBody(),
       body: CardImageSlider(legendaryDeck: widget.legendaryDeck
       ),
       //bottomNavigationBar: getFooter(),
@@ -107,13 +109,6 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
     );
   }
 
-  Widget getBody() {
-
-    return SizedBox(
-        child: CardImageSlider(legendaryDeck: widget.legendaryDeck
-        )
-    );
-  }
 
 
 }

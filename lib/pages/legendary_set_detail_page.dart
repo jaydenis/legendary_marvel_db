@@ -216,13 +216,20 @@ Widget decks() {
         var henchmenList = items.decks.where((element) =>
         element.deckType == 'Henchmen').toList();
 
+        var schemeList = items.decks.where((element) =>
+        element.deckType == 'Schemes').toList();
+
+        var generalList = items.decks.where((element) =>
+        element.deckType == 'General').toList();
+
         return Column(
             children: [
               DeckExpandableCard(legendaryDecks: heroesList),
               DeckExpandableCard(legendaryDecks: mastermindsList),
               DeckExpandableCard(legendaryDecks: villainsList),
               DeckExpandableCard(legendaryDecks: henchmenList),
-
+              DeckExpandableCard(legendaryDecks: schemeList),
+              DeckExpandableCard(legendaryDecks: generalList),
             ]
         );
       } else {

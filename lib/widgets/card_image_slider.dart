@@ -40,6 +40,7 @@ class _CardImageSliderState extends State<CardImageSlider>
     }
     return ListView(
       children: [
+        const SizedBox(width: defaultPadding),
         CarouselSlider(
           items: imageListWidgets,
           carouselController: buttonCarouselController,
@@ -50,7 +51,7 @@ class _CardImageSliderState extends State<CardImageSlider>
             autoPlay: false,
             aspectRatio: 137 / 187,
             autoPlayCurve: Curves.fastOutSlowIn,
-            enableInfiniteScroll: true,
+            enableInfiniteScroll: false,
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             viewportFraction: 0.8,
           ),

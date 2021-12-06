@@ -61,13 +61,19 @@ class _HomePageState extends State<HomePage> {
                 flex: 5,
                 child: Column(
                   children: [
-                    LegendarySetsHorzAtom(list: list),
-                    SizedBox(height: defaultPadding),
-                    LegendarySetsNewAtom(list: list),
-                    // LegendaryHeroes(),
+
+
+                      LegendarySetsHorzAtom(list: list),
+
+    /* if (!Responsive.isMobile(context))
+                      SizedBox(height: defaultPadding),
+                    if (!Responsive.isMobile(context))
+                      LegendarySetsNewAtom(list: list),
+
                     if (Responsive.isMobile(context))
                       SizedBox(height: defaultPadding),
-                    if (Responsive.isMobile(context)) LegendarySetsVertAtom(list: list),
+                    if (Responsive.isMobile(context))
+                      LegendarySetsVertAtom(list: list),*/
                   ],
                 ),
               ),
