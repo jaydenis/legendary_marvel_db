@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/widgets/card_image_slider.dart';
+import 'package:legendary_marvel_db/widgets/legendary_deck_atom.dart';
 import '../constants.dart';
+import '../responsive.dart';
 import 'legendary_card_detail_page.dart';
 
 final borderRadius = BorderRadius.circular(20.0);
@@ -109,6 +111,48 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
     );
   }
 
+  Widget getBody() {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: defaultPadding),
+          //HomePageCover(size: size),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    const SizedBox(height: defaultPadding),
+                    CardImageSlider(legendaryDeck: widget.legendaryDeck),
+                    // LegendaryHeroes(),
+                     if (Responsive.isMobile(context))
+                       SizedBox(height: defaultPadding),
+                      if (Responsive.isMobile(context)) LegendaryDeckVertAtom(list: widget.legendaryDeck.cards),
 
+                  ],
+                ),
+              ),
+              if (!Responsive.isMobile(context))
+                const SizedBox(width: defaultPadding),
+              // On Mobile means if the screen is less than 850 we dont want to show it
+              if (!Responsive.isMobile(context))
+                Expanded(
+                  flex: 2,
+                  child: LegendaryDeckVertAtom(list: widget.legendaryDeck.cards),
+                ),
+            ],
+          ),
+
+          // LegendarySetsNewAtom(recommendedSets: legendarySets),
+          //LegendarySetsAllAtom(legendarySetsList: legendarySets),
+        ],
+      ),
+    );
+  }
 
 }

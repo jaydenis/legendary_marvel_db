@@ -5,14 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/helper.dart';
-import 'package:legendary_marvel_db/theme/padding.dart';
-import 'package:legendary_marvel_db/widgets/header.dart';
 import 'package:legendary_marvel_db/widgets/legendary_deck_card.dart';
-import 'package:legendary_marvel_db/widgets/legendary_decktypes_atom.dart';
 import 'package:legendary_marvel_db/widgets/legendary_sets_atom.dart';
 import '../constants.dart';
 import '../responsive.dart';
-import 'legendary_deck_detail_page.dart';
 import 'package:http/http.dart' as http;
 
 class LegendarySetDetailPage extends StatefulWidget {
@@ -32,12 +28,12 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
 
   Future<LegendarySetModel> ReadJsonData(String jsonFile) async {
     final response = await http
-        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/'+jsonFile));
+        .get(Uri.parse(JSON_ROOT+jsonFile));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as dynamic;
       Map<String, dynamic> setData = jsonDecode(response.body) ;
-      return LegendarySetModel.fromJson(setData) as LegendarySetModel;
+      return LegendarySetModel.fromJson(setData);
     } else {
       throw Exception('Failed to load Legendary Set');
     }
@@ -45,7 +41,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
 
   Future<List<LegendarySetDetails>> ReadLegendarySetsJsonData() async {
     final response = await http
-        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+        .get(Uri.parse('${JSON_ROOT}json_data/legendary_sets.json'));
 
     if (response.statusCode == 200) {
       final list = json.decode(response.body) as List<dynamic>;
@@ -227,9 +223,15 @@ Widget decks() {
               DeckExpandableCard(legendaryDecks: heroesList),
               DeckExpandableCard(legendaryDecks: mastermindsList),
               DeckExpandableCard(legendaryDecks: villainsList),
-              DeckExpandableCard(legendaryDecks: henchmenList),
-              DeckExpandableCard(legendaryDecks: schemeList),
-              DeckExpandableCard(legendaryDecks: generalList),
+
+              if (henchmenList.isNotEmpty)
+               DeckExpandableCard(legendaryDecks: henchmenList),
+
+              if (schemeList.isNotEmpty)
+                DeckExpandableCard(legendaryDecks: schemeList),
+
+              if (generalList.isNotEmpty)
+                DeckExpandableCard(legendaryDecks: generalList),
             ]
         );
       } else {

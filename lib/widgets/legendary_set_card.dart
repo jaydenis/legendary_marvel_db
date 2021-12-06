@@ -4,7 +4,6 @@ import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/pages/legendary_set_detail_page.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
 import 'package:legendary_marvel_db/theme/fontsizes.dart';
-import 'package:legendary_marvel_db/theme/helper.dart';
 import 'package:legendary_marvel_db/theme/padding.dart';
 
 import '../constants.dart';
@@ -21,7 +20,7 @@ class LegendarySetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LegendarySetDetails legendarySet = legendarySetFuture as LegendarySetDetails;
+    LegendarySetDetails legendarySet = legendarySetFuture;
     return Container(
       width: this.width,
       decoration: BoxDecoration(
@@ -102,7 +101,7 @@ class LegendarySetCardSmall extends StatelessWidget {
               CachedNetworkImage(
                 placeholder: (context, url) => const CircularProgressIndicator(),
                 imageUrl:IMAGE_ROOT + legendarySetFuture.boxImage,
-                fit: BoxFit.cover,
+                fit: BoxFit.scaleDown,
               ),
             )
         ),

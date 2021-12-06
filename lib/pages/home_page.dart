@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
-import 'package:legendary_marvel_db/widgets/header.dart';
+import 'package:legendary_marvel_db/theme/helper.dart';
 import 'package:legendary_marvel_db/widgets/legendary_sets_atom.dart';
 import 'package:legendary_marvel_db/responsive.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
   Future<List<LegendarySetDetails>> ReadJsonData() async {
     final response = await http
-        .get(Uri.parse('https://raw.githubusercontent.com/jaydenis/legendary_marvel_cards/master/json_data/legendary_sets.json'));
+        .get(Uri.parse('${JSON_ROOT}json_data/legendary_sets.json'));
 
     if (response.statusCode == 200) {
       final list = json.decode(response.body) as List<dynamic>;
@@ -32,14 +32,34 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: bgColor,
-      // appBar: PreferredSize(
-      //     child: MainAppBar(size: size), preferredSize: const Size.fromHeight(40)),
+      appBar: PreferredSize(
+          child:  getAppBar(),
+          preferredSize: const Size.fromHeight(100)),
       body: getBody(widget.ReadJsonData()),
+    );
+
+  }
+
+  Widget getAppBar() {
+    var size = MediaQuery.of(context).size;
+    return AppBar(
+      backgroundColor: bgColor,
+      flexibleSpace: Stack(
+        children: [
+          Container(
+            height: getHeight(size.width, "21:9"),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("images/marvel_legendary_deck_building_game.jpg"),
+                    fit: BoxFit.cover)
+            ),
+          ),
+
+
+        ],
+      ),
     );
   }
 
@@ -49,9 +69,10 @@ class _HomePageState extends State<HomePage> {
         .of(context)
         .size;
     return SingleChildScrollView(
+      padding: EdgeInsets.all(defaultPadding),
       child: Column(
         children: [
-          const Header(),
+          //const Header(),
           SizedBox(height: defaultPadding),
           //HomePageCover(size: size),
           Row(
@@ -61,10 +82,8 @@ class _HomePageState extends State<HomePage> {
                 flex: 5,
                 child: Column(
                   children: [
-
-
                       LegendarySetsHorzAtom(list: list),
-
+                    SizedBox(height: defaultPadding),
     /* if (!Responsive.isMobile(context))
                       SizedBox(height: defaultPadding),
                     if (!Responsive.isMobile(context))

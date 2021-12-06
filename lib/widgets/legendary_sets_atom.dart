@@ -9,7 +9,6 @@ import 'package:legendary_marvel_db/theme/padding.dart';
 import '../constants.dart';
 import '../responsive.dart';
 import 'legendary_set_card.dart';
-import 'package:http/http.dart' as http;
 
 class LegendarySetsHorzAtom extends StatelessWidget {
   final Future<List<LegendarySetDetails>> list;
@@ -21,35 +20,39 @@ class LegendarySetsHorzAtom extends StatelessWidget {
     var size = MediaQuery
         .of(context)
         .size;
-    return FutureBuilder(
-      future: list,
-      builder: (context, data) {
-        if (data.hasError) {
-          return Center(child: Text("${data.error}"));
-        } else if (data.hasData) {
-          var items = data.data as List<LegendarySetDetails>;
+    return Column(
+      children: [
+        FutureBuilder(
+          future: list,
+          builder: (context, data) {
+            if (data.hasError) {
+              return Center(child: Text("${data.error}"));
+            } else if (data.hasData) {
+              var items = data.data as List<LegendarySetDetails>;
 
-          return Column(
-            children: [
-              const SizedBox(height: defaultPadding),
-              Responsive(
-                mobile: SetInfoCardGridView(legendarySets: items,
-                  crossAxisCount: size.width < 650 ? 2 : 4,
-                  childAspectRatio: size.width < 650 ? 1.3 : 1,
-                ),
-                tablet: SetInfoCardGridView(legendarySets: items),
-                desktop: SetInfoCardGridView(legendarySets: items,
-                  childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
-                ),
-              ),
-              ]
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+              return Column(
+                children: [
+                  const SizedBox(height: defaultPadding),
+                  Responsive(
+                    mobile: SetInfoCardGridView(legendarySets: items,
+                      crossAxisCount: size.width < 650 ? 2 : 4,
+                      childAspectRatio: size.width < 650 ? 1.3 : 1,
+                    ),
+                    tablet: SetInfoCardGridView(legendarySets: items),
+                    desktop: SetInfoCardGridView(legendarySets: items,
+                      childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
+                    ),
+                  ),
+                  ]
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ],
     );
   }
 

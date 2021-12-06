@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:legendary_marvel_db/theme/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:legendary_marvel_db/theme/helper.dart';
 import '../constants.dart';
 import '../responsive.dart';
-import 'menu_controller.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -15,9 +14,29 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (!Responsive.isDesktop(context))
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return
+        Container(
+          //padding:
+          //const EdgeInsets.only(left: leftMainPadding, right: rightMainPadding),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: getHeight(size.width, "21:9"),
+                child: Image.asset(
+                  getImage("marvel_legendary_deck_building_game.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+            ],
+          ),
+
+/*        if (!Responsive.isDesktop(context))
           IconButton(
             icon: const Icon(Icons.menu),
             onPressed: context.read<MenuController>().controlMenu,
@@ -29,9 +48,8 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        const Expanded(child: SearchField()),
+        const Expanded(child: SearchField()),*/
        // const ProfileCard()
-      ],
     );
   }
 }

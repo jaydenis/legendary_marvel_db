@@ -47,7 +47,7 @@ class MainAppBar extends StatelessWidget {
                                     ..onTap = () {
                                       Navigator.pushNamed(context, "/");
                                     },
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: textBlack,
                                 fontSize: titleFontSize,
                                 fontWeight: FontWeight.bold),
@@ -58,14 +58,12 @@ class MainAppBar extends StatelessWidget {
 
                         const SizedBox(
                           width: 10,
-
                         ),
                         getSvgIcon("arrow_right_icon.svg"),
                       ],
                     ),
                     Row(
                       children: [
-
                         IconButton(
                             onPressed: () {
                               Navigator.pushNamed(context, "/search");
@@ -79,7 +77,6 @@ class MainAppBar extends StatelessWidget {
                     )
                   ],
                 ),
-
               ],
             ),
           ),

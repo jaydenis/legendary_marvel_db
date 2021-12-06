@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:legendary_marvel_db/models/legendary_set_model.dart';
 import 'package:legendary_marvel_db/pages/legendary_set_detail_page.dart';
@@ -94,5 +95,48 @@ class SetInfoCardGridView extends StatelessWidget {
       ),
       itemBuilder: (context, index) => LegendarySetCardSmall(legendarySetFuture: legendarySets[index]),
     );
+  }
+}
+
+class LegendaryDeckVertAtom extends StatelessWidget {
+  final List<LegendaryCard> list;
+
+  const LegendaryDeckVertAtom({Key? key, required this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    return  Container(
+            width: double.infinity,
+            decoration: const BoxDecoration(color: secondaryColor),
+            child: Padding(
+              padding: const EdgeInsets.all(mainPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: List.generate(list.length, (index) {
+                      var legendaryCard = list[index];
+                      return Padding(
+                        padding:
+                        const EdgeInsets.only(bottom: bottomMainPadding),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            imageUrl:IMAGE_ROOT + legendaryCard.cardImage,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      );
+                    }),
+                  )
+                ],
+              ),
+            ),
+          );
   }
 }

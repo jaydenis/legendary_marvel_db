@@ -54,6 +54,7 @@ class _CardImageSliderState extends State<CardImageSlider>
             enableInfiniteScroll: false,
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             viewportFraction: 0.8,
+
           ),
         ),
         Row(
