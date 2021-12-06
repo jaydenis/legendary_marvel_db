@@ -227,9 +227,15 @@ Widget decks() {
               DeckExpandableCard(legendaryDecks: heroesList),
               DeckExpandableCard(legendaryDecks: mastermindsList),
               DeckExpandableCard(legendaryDecks: villainsList),
-              DeckExpandableCard(legendaryDecks: henchmenList),
-              DeckExpandableCard(legendaryDecks: schemeList),
-              DeckExpandableCard(legendaryDecks: generalList),
+
+              if (henchmenList.isNotEmpty)
+               DeckExpandableCard(legendaryDecks: henchmenList),
+
+              if (schemeList.isNotEmpty)
+                DeckExpandableCard(legendaryDecks: schemeList),
+
+              if (generalList.isNotEmpty)
+                DeckExpandableCard(legendaryDecks: generalList),
             ]
         );
       } else {
