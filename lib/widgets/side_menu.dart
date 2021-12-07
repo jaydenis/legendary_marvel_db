@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:legendary_marvel_db/pages/legendary_masterminds_page.dart';
 
 import '../constants.dart';
 
@@ -31,7 +32,14 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Masterminds",
             svgSrc: "assets/icons/menu_task.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => LegendaryMastermindsPage()
+                  )
+              );
+            },
           ),
           DrawerListTile(
             title: "Villains",

@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             height: getHeight(size.width, "21:9"),
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("images/marvel_legendary_deck_building_game.jpg"),
+                    image: NetworkImage("${IMAGE_ROOT}images/marvel_legendary_deck_building_game.jpg"),
                     fit: BoxFit.cover)
             ),
           ),
