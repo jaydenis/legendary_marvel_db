@@ -36,7 +36,7 @@ class _CardImageSliderState extends State<CardImageSlider>
     List<Widget> imageListWidgets = [];
     for (var image in objects) {
       imageListWidgets.add(
-          _toCarouselSliderWidget(IMAGE_ROOT + image.cardImage));
+          _toCarouselSliderWidget(APP_ROOT + image.cardImage));
     }
     return ListView(
       children: [

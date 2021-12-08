@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
   Future<List<LegendarySetDetails>> ReadJsonData() async {
     final response = await http
-        .get(Uri.parse('${JSON_ROOT}json_data/legendary_sets.json'));
+        .get(Uri.parse(JSON_ROOT));
 
     if (response.statusCode == 200) {
       final list = json.decode(response.body) as List<dynamic>;
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
             height: getHeight(size.width, "21:9"),
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage("${IMAGE_ROOT}images/marvel_legendary_deck_building_game.jpg"),
+                    image: NetworkImage("${APP_ROOT}images/marvel_legendary_deck_building_game.jpg"),
                     fit: BoxFit.cover)
             ),
           ),

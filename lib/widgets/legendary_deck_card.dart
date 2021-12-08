@@ -41,7 +41,7 @@ class LegendaryDeckCard extends StatelessWidget {
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
                 child: Image.network(
-                  IMAGE_ROOT+legendaryDeck.deckImage,
+                  APP_ROOT+legendaryDeck.deckImage,
                   fit: BoxFit.cover,
                 ),
               )
@@ -95,7 +95,7 @@ class LegendaryDeckCardSmall extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             child: CachedNetworkImage(
               placeholder: (context, url) => const CircularProgressIndicator(),
-              imageUrl:IMAGE_ROOT + legendaryDeck.deckImage,
+              imageUrl:APP_ROOT + legendaryDeck.deckImage,
               fit: BoxFit.cover,
             ),
           )

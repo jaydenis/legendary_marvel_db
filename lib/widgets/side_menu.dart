@@ -15,7 +15,7 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.network(IMAGE_ROOT+"images/boxart/legendary_core.jpg"),
+            child: Image.network(APP_ROOT+"images/boxart/legendary_core.jpg"),
           ),
           DrawerListTile(
             title: "Dashboard",
@@ -27,7 +27,14 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Heroes",
             svgSrc: "assets/icons/menu_tran.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LegendaryMastermindsPage(deckTypeFilter:'Heroes')
+                  )
+              );
+            },
           ),
           DrawerListTile(
             title: "Masterminds",
@@ -36,7 +43,7 @@ class SideMenu extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => LegendaryMastermindsPage()
+                      builder: (context) => const LegendaryMastermindsPage(deckTypeFilter:'Masterminds')
                   )
               );
             },
@@ -44,17 +51,38 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Villains",
             svgSrc: "assets/icons/menu_doc.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LegendaryMastermindsPage(deckTypeFilter:'Villains')
+                  )
+              );
+            },
           ),
           DrawerListTile(
             title: "Henchmen",
             svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LegendaryMastermindsPage(deckTypeFilter:'Henchmen')
+                  )
+              );
+            },
           ),
           DrawerListTile(
             title: "Schemes",
             svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LegendaryMastermindsPage(deckTypeFilter:'Schemes')
+                  )
+              );
+            },
           ),
           DrawerListTile(
             title: "Sidekicks",

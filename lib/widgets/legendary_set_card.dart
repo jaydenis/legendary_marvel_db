@@ -40,7 +40,7 @@ class LegendarySetCard extends StatelessWidget {
                     topRight: Radius.circular(10)),
                 child: CachedNetworkImage(
                   placeholder: (context, url) => const CircularProgressIndicator(),
-                  imageUrl:IMAGE_ROOT + legendarySetFuture.boxImage,
+                  imageUrl:APP_ROOT + legendarySetFuture.boxImage,
                   fit: BoxFit.cover,
                 ),
               )
@@ -100,7 +100,7 @@ class LegendarySetCardSmall extends StatelessWidget {
               child:
               CachedNetworkImage(
                 placeholder: (context, url) => const CircularProgressIndicator(),
-                imageUrl:IMAGE_ROOT + legendarySetFuture.boxImage,
+                imageUrl:APP_ROOT + legendarySetFuture.boxImage,
                 fit: BoxFit.scaleDown,
               ),
             )

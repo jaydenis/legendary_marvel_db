@@ -50,7 +50,7 @@ class HomePageCover extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.network(IMAGE_ROOT+legendaryDeckTypes[index]['deckTypeImage'],
+                    Image.network(APP_ROOT+legendaryDeckTypes[index]['deckTypeImage'],
                       height: 36,
                       width: 36,
                     ),

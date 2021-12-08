@@ -23,7 +23,7 @@ class LegendaryCardDetailPage extends StatelessWidget {
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30)),
                   image: DecorationImage(
-                    image: NetworkImage(IMAGE_ROOT+legendaryCard.cardImage),
+                    image: NetworkImage(APP_ROOT+legendaryCard.cardImage),
                     fit: BoxFit.fitHeight,
                   ),
                 ),

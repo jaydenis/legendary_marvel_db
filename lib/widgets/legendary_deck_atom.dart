@@ -127,7 +127,7 @@ class LegendaryDeckVertAtom extends StatelessWidget {
                           borderRadius: const BorderRadius.all(Radius.circular(10)),
                           child: CachedNetworkImage(
                             placeholder: (context, url) => const CircularProgressIndicator(),
-                            imageUrl:IMAGE_ROOT + legendaryCard.cardImage,
+                            imageUrl:APP_ROOT + legendaryCard.cardImage,
                             fit: BoxFit.cover,
                           ),
                         )

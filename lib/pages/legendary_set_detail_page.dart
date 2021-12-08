@@ -28,7 +28,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
 
   Future<LegendarySetModel> ReadJsonData(String jsonFile) async {
     final response = await http
-        .get(Uri.parse(JSON_ROOT+jsonFile));
+        .get(Uri.parse(APP_ROOT+jsonFile));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as dynamic;
@@ -41,7 +41,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
 
   Future<List<LegendarySetDetails>> ReadLegendarySetsJsonData() async {
     final response = await http
-        .get(Uri.parse('${JSON_ROOT}json_data/legendary_sets.json'));
+        .get(Uri.parse(JSON_ROOT));
 
     if (response.statusCode == 200) {
       final list = json.decode(response.body) as List<dynamic>;
@@ -84,7 +84,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
             height: getHeight(size.width, "21:9"),
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(IMAGE_ROOT+widget.legendarySet.boxImage),
+                    image: NetworkImage(APP_ROOT+widget.legendarySet.boxImage),
                     fit: BoxFit.cover)
             ),
           ),

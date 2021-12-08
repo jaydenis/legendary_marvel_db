@@ -8,8 +8,7 @@ Route<dynamic> generateRoute(RouteSettings setting) {
   switch (setting.name) {
     case '/root_app':
       return MaterialPageRoute(builder: (context) => RootApp());
-    case '/masterminds':
-      return MaterialPageRoute(builder: (context) => LegendaryMastermindsPage());
+
     default:
       return MaterialPageRoute(
           builder: (context) => Scaffold(
