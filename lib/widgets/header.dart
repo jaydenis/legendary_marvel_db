@@ -32,24 +32,8 @@ class Header extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-
             ],
           ),
-
-/*        if (!Responsive.isDesktop(context))
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: context.read<MenuController>().controlMenu,
-          ),
-        if (!Responsive.isMobile(context))
-          Text(
-            "Legendary Marvel",
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        if (!Responsive.isMobile(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        const Expanded(child: SearchField()),*/
-       // const ProfileCard()
     );
   }
 }

@@ -58,7 +58,7 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
       appBar: PreferredSize(
           child:  getAppBar(),
         preferredSize: const Size.fromHeight(100)),
-      body: getBody(ReadLegendarySetsJsonData()),
+      body: getBody(),
       //bottomNavigationBar: getFooter(),
     );
   }
@@ -142,10 +142,11 @@ class _LegendarySetDetailPageState extends State<LegendarySetDetailPage> {
     );
   }
 
-  Widget getBody( final Future<List<LegendarySetDetails>> list) {
+  Widget getBody() {
     var size = MediaQuery
         .of(context)
         .size;
+    Future<List<LegendarySetDetails>> list = ReadLegendarySetsJsonData();
     return SingleChildScrollView(
       child: Column(
         children: [

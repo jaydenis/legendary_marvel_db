@@ -63,7 +63,8 @@ class _LegendaryDeckDetailPageState extends State<LegendaryDeckDetailPage> {
                 image: DecorationImage(
                     image: NetworkImage(
                         APP_ROOT + widget.legendaryDeck.deckImage),
-                    fit: BoxFit.cover)),
+                    fit: BoxFit.cover)
+            ),
           ),
           Container(
             decoration: BoxDecoration(color: textBlack.withOpacity(0.5)),
