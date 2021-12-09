@@ -1,13 +1,9 @@
-// @dart=2.9
-
+import 'package:admin/constants.dart';
+import 'package:admin/controllers/MenuController.dart';
+import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:legendary_marvel_db/pages/root_app.dart';
-import 'package:legendary_marvel_db/widgets/menu_controller.dart';
-import 'constants.dart';
-import 'package:legendary_marvel_db/theme/colors.dart';
-import 'router.dart' as router;
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,17 +28,8 @@ class MyApp extends StatelessWidget {
             create: (context) => MenuController(),
           ),
         ],
-        child: RootApp(),
+        child: MainScreen(),
       ),
     );
   }
 }
-
-
-/*void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    onGenerateRoute: router.generateRoute,
-    home: RootApp(),
-  ));
-}*/
