@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../constants.dart';
+import 'legendary_header.dart';
 
 class CardImageSlider extends StatefulWidget {
   final Deck legendaryDeck;
@@ -41,58 +42,71 @@ class _CardImageSliderState extends State<CardImageSlider>
       imageListWidgets.add(
           _toCarouselSliderWidget(APP_ROOT + image.cardImage));
     }
-    return ListView(
-      children: [
-        const SizedBox(width: defaultPadding),
-        CarouselSlider(
-          items: imageListWidgets,
-          carouselController: buttonCarouselController,
-          //Slider Container properties
-          options: CarouselOptions(
-            height: 525.0,
-            enlargeCenterPage: true,
-            autoPlay: false,
-            aspectRatio: 137 / 187,
-            autoPlayCurve: Curves.fastOutSlowIn,
-            enableInfiniteScroll: false,
-            autoPlayAnimationDuration: const Duration(milliseconds: 800),
-            viewportFraction: 0.8,
-
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.all(defaultPadding),
+        child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(0),
-              child: IconButton(
-                padding: const EdgeInsets.all(0),
-                alignment: Alignment.centerRight,
-                icon: const Icon(Icons.arrow_back_outlined),
-                color: Colors.blue[400],
-                onPressed: () => buttonCarouselController.previousPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.linear),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(0),
-              child: IconButton(
-                padding: const EdgeInsets.all(0),
-                alignment: Alignment.centerRight,
-                icon: const Icon(Icons.arrow_forward_outlined),
-                color: Colors.blue[400],
-                onPressed: () => buttonCarouselController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.linear),
-              ),
-            ),
+            LegendaryHeader(showBack: true,),
+            SizedBox(height: defaultPadding),
+            Column(
+              children: [
+                const SizedBox(width: defaultPadding),
+                CarouselSlider(
+                  items: imageListWidgets,
+                  carouselController: buttonCarouselController,
+                  //Slider Container properties
+                  options: CarouselOptions(
+                    height: 525.0,
+                    enlargeCenterPage: true,
+                    autoPlay: false,
+                    aspectRatio: 137 / 187,
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enableInfiniteScroll: false,
+                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                    viewportFraction: 0.8,
 
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(0),
+                      child: IconButton(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.centerRight,
+                        icon: const Icon(Icons.arrow_back_outlined),
+                        color: Colors.blue[400],
+                        onPressed: () => buttonCarouselController.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.linear),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(0),
+                      child: IconButton(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.centerRight,
+                        icon: const Icon(Icons.arrow_forward_outlined),
+                        color: Colors.blue[400],
+                        onPressed: () => buttonCarouselController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.linear),
+                      ),
+                    ),
+
+                  ],
+                ),
+              ],
+            )
           ],
         ),
-      ],
+      ),
     );
   }
+
+
 
 
   Widget _toCarouselSliderWidget(String imagePath) {

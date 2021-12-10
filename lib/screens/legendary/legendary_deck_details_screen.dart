@@ -22,6 +22,7 @@ class LegendaryDeckDetailsScreen extends StatelessWidget {
     return Scaffold(
       //key: context.read<MenuController>().scaffoldKey,
       drawer: SideMenu(),
+
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +37,7 @@ class LegendaryDeckDetailsScreen extends StatelessWidget {
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: CardImageSlider(legendaryDeck: legendaryDeck),
+              child: Container(child: CardImageSlider(legendaryDeck: legendaryDeck)),
             ),
           ],
         ),

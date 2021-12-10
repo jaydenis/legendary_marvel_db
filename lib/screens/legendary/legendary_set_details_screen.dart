@@ -32,7 +32,7 @@ class LegendarySetDetailsScreen extends StatelessWidget {
     if (response.statusCode == 200) {
 
       Map<String, dynamic> setData = jsonDecode(response.body) ;
-      print(setData);
+
       return LegendarySetModel.fromJson(setData);
     } else {
       throw Exception('Failed to load Legendary Set');
@@ -72,7 +72,7 @@ class LegendarySetDetailsScreen extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            LegendaryHeader(),
+            LegendaryHeader(showBack: true),
             SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,9 +110,14 @@ class LegendarySetDetailsScreen extends StatelessWidget {
                             child: CachedNetworkImage(
                               placeholder: (context, url) => const CircularProgressIndicator(),
                               imageUrl:APP_ROOT + legendarySet.boxImage,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
-                          )
+                          ),
+                          Text("Year: ${legendarySet.yearReleased.toString()}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption!
+                                .copyWith(color: Colors.white70),)
                         ],
                       ),
                   ),

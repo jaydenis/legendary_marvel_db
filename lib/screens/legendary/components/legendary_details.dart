@@ -21,7 +21,7 @@ class LegendaryDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Storage Details",
+            "Legendary Marvel Details",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -31,26 +31,26 @@ class LegendaryDetails extends StatelessWidget {
          // Chart(),
           LegendaryDetailsInfoCard(
             svgSrc: "assets/icons/Documents.svg",
-            title: "Documents Files",
-            amountOfFiles: "1.3GB",
+            title: "Heroes",
+            amountOfFiles: "750",
             numOfFiles: 1328,
           ),
           LegendaryDetailsInfoCard(
-            svgSrc: "assets/icons/media.svg",
-            title: "Media Files",
-            amountOfFiles: "15.3GB",
+            svgSrc: "assets/icons/pdf_file.svg",
+            title: "Masterminds",
+            amountOfFiles: "75",
             numOfFiles: 1328,
           ),
           LegendaryDetailsInfoCard(
             svgSrc: "assets/icons/folder.svg",
-            title: "Other Files",
-            amountOfFiles: "1.3GB",
+            title: "Villains",
+            amountOfFiles: "250",
             numOfFiles: 1328,
           ),
           LegendaryDetailsInfoCard(
             svgSrc: "assets/icons/unknown.svg",
-            title: "Unknown",
-            amountOfFiles: "1.3GB",
+            title: "Henchmen",
+            amountOfFiles: "140",
             numOfFiles: 140,
           ),
         ],

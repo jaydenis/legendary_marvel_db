@@ -9,6 +9,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/constants.dart';
 import 'package:http/http.dart' as http;
+import 'components/legendary_header.dart';
 import 'legendary_deck_details_screen.dart';
 
 class LegendaryDecksByTypeScreen extends StatefulWidget {
@@ -95,6 +96,41 @@ int pageIndex = 0;
   }
 
   Widget getBody(BuildContext context){
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(defaultPadding),
+        child: Column(
+          children: [
+            LegendaryHeader(showBack: true),
+            SizedBox(height: defaultPadding),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Column(
+                    children: [
+                      getDecks(context),
+                      SizedBox(height: defaultPadding),
+                      //getDecks(),
+                      if (Responsive.isMobile(context))
+                        SizedBox(height: defaultPadding),
+                      // if (Responsive.isMobile(context)) LegendaryDetails(),
+                    ],
+                  ),
+                ),
+                if (!Responsive.isMobile(context))
+                  SizedBox(width: defaultPadding),
+
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getDecks(BuildContext context){
     var size = MediaQuery
         .of(context)
         .size;
@@ -141,51 +177,6 @@ int pageIndex = 0;
     );
   }
 
-  Widget getDecks() {
-    var size = MediaQuery
-        .of(context)
-        .size;
-    return FutureBuilder(
-      future: ReadLegendarySetsJsonData(),
-      builder: (context, data) {
-        if (data.hasError) {
-          return Center(child: Text("${data.error}"));
-        } else if (data.hasData) {
-          var items = data.data as List<LegendarySetModel>;
-          List<Deck> deckList = [];
-          for (var item in items) {
-            var decks = item.decks.where((element) =>
-            element.deckType == widget.deckTypeFilter).toList();
-            for (var deck in decks) {
-              deckList.add(deck);
-            }
-          }
-          return Column(
-            children:
-            <Widget>[
-              Responsive(
-                mobile: DeckInfoCardGridView(legendaryDecks: deckList,
-                  crossAxisCount: size.width < 650 ? 2 : 4,
-                  childAspectRatio: size.width < 650 ? 1.3 : 1,
-                ),
-                tablet: DeckInfoCardGridView(
-                    legendaryDecks: deckList),
-                desktop: DeckInfoCardGridView(
-                  legendaryDecks: deckList,
-                  childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
-                ),
-              ),
-
-            ],
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
 
 
 

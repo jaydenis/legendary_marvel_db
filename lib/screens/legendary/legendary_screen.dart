@@ -38,7 +38,7 @@ class LegendaryScreen extends StatelessWidget {
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            LegendaryHeader(),
+            LegendaryHeader(showBack: false),
             SizedBox(height: defaultPadding),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

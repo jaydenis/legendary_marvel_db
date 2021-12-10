@@ -7,13 +7,19 @@ import 'package:admin/constants.dart';
 
 class LegendaryHeader extends StatelessWidget {
   const LegendaryHeader({
-    Key? key,
+    Key? key, required this.showBack
   }) : super(key: key);
+final bool showBack;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        if(showBack)
+          IconButton(icon:Icon(Icons.arrow_back),
+            onPressed:() => Navigator.pop(context, false),
+          // onPressed:() => exit(0),
+          ),
         if (!Responsive.isDesktop(context))
           IconButton(
             icon: Icon(Icons.menu),
@@ -26,8 +32,8 @@ class LegendaryHeader extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        //Expanded(child: SearchField()),
-        //ProfileCard()
+
+
       ],
     );
   }
